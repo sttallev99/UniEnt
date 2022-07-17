@@ -25,6 +25,8 @@ export async function login(username, password) {
     localStorage.setItem('userToken', result['user-token']);
     localStorage.setItem('userId', result.objectId);
     localStorage.setItem('username', result.username);
+
+    return result;
 }
 
 export async function register(username, password) {
@@ -50,6 +52,8 @@ export async function logout() {
     });
 
     localStorage.removeItem('userToken');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userId');
 
     return result;
 }
