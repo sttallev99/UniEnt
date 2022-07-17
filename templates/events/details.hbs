@@ -14,9 +14,9 @@
       </div>
       {{#if isMine}}
       <a href="#/edit/{{objectId}}" class="btn btn-primary btn-lg">Edit the event</a>
-      <a href="#" class="btn btn-danger btn-lg">Close the event</a>
+      <a href="#/delete/{{objectId}}" class="btn btn-danger btn-lg">Close the event</a>
       {{else}}
-      <a href="#" class="btn btn-info btn-lg">Join the event</a>
+      <a href="#/join/{{objectId}}" class="btn btn-info btn-lg">Join the event</a>
       {{/if}}
     </div>
 </div>

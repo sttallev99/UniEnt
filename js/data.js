@@ -127,4 +127,15 @@ export async function updateEvent(id, updatedEvent) {
     })).json();
 }
 
+export async function deleteEvent(id) {
+    const token = localStorage.getItem('userToken');
+    
+    return (await fetch(getURL(endpoints.GET_EVENT + id), {
+        method: 'DELETE',
+        headers: {
+            'user-token': token
+        }
+    }))
+}
+
 

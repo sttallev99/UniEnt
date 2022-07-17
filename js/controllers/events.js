@@ -1,4 +1,4 @@
-import { createEvent, getEvents, getEvent, updateEvent } from '../data.js';
+import { createEvent, getEvents, getEvent, updateEvent, deleteEvent as deleteEventApi } from '../data.js';
 
 export async function catalog() {
     this.partials = {
@@ -97,4 +97,28 @@ export async function details() {
 
     const context = Object.assign(event, this.app.userData)
     this.partial('./templates/events/details.hbs', context);
+}
+
+export async function deleteEvent() {
+    const id = this.params.id;
+    try {
+        const result = await deleteEventApi(id);
+        if(result.hasOwnProperty('errorData')) {
+            const error = new Error;
+            Object.assign(error, result);
+            throw error
+        }
+        this.redirect('#/catalog');
+    }catch(err) {
+        console.error(err);
+    }
+}
+
+export async function join() {
+    const id = this.params.id;
+    const event = await getEvent(id);
+    const interestedPeopleIncrement = {interestedPeople: event.interestedPeople + 1}
+    const updatedEvent = await updateEvent(id, interestedPeopleIncrement);
+
+    this.redirect(`#/details/${updatedEvent.objectId}`);
 }

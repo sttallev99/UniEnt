@@ -1,4 +1,4 @@
-import { logout as logoutApi, login as loginApi, register as registerApi } from '../data.js';
+import { logout as logoutApi, login as loginApi, register as registerApi, getEventsByUser } from '../data.js';
 
 export async function login() {
     this.partials = {
@@ -60,8 +60,19 @@ export async function registerPost() {
 export async function user() {
     this.partials = {
         header: await this.load('./templates/common/header.hbs'),
-        footer: await this.load('./templates/common/footer.hbs')
+        footer: await this.load('./templates/common/footer.hbs'),
+        ownEvent: await this.load('./templates/user/ownEvent.hbs')
     }
+    const ownEvents = await getEventsByUser();
+    const countEvents = ownEvents.length;
+    if(ownEvents.length !== 0) {
+        this.app.userData.haveOwnEvent = true;
+    } else {
+        this.app.userData.haveOwnEvent = false;
+    }
+
+    this.app.userData.ownEvents = ownEvents;
+    this.app.userData.countEvents = countEvents;
     this.partial('./templates/user/user.hbs', this.app.userData)
 }
 export async function logout() {
