@@ -1,6 +1,6 @@
 import { login, register, user, logout, loginPost, registerPost } from './controllers/user.js';
 import home  from './controllers/home.js'
-import { catalog, create, details, edit, createPost } from './controllers/events.js'
+import { catalog, create, details, edit, createPost, editPost } from './controllers/events.js'
 
 window.addEventListener('load', () => {
     const app = Sammy('body', function() {
@@ -8,7 +8,7 @@ window.addEventListener('load', () => {
 
         this.userData = {
             username: localStorage.getItem('username') || '',
-            isMine: true
+            isMine: false
         }
         
         this.get('/', home);
@@ -27,6 +27,7 @@ window.addEventListener('load', () => {
         this.post('#/login', (ctx) => { loginPost.call(ctx); });
         this.post('#/register', (ctx) => {registerPost.call(ctx); });
         this.post('#/create', (ctx) => { createPost.call(ctx); });
+        this.post('#/edit/:id', (ctx) => { editPost.call(ctx); });
     });
     app.run();
 });

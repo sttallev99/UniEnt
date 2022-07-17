@@ -7,7 +7,8 @@ const endpoints = {
     LOGOUT: 'users/logout',
     REGISTER: 'users/register',
     GET_EVENTS: 'data/events',
-    GET_EVENT: 'data/events/'
+    GET_EVENT: 'data/events/',
+    GET_USER: 'data/users'
 }
 
 export async function login(username, password) {
@@ -58,6 +59,16 @@ export async function logout() {
     return result;
 }
 
+export async function getEventCreator(creatorObjectId) {
+    const token = localStorage.getItem('userToken');
+
+    return (await fetch(getURL(endpoints.GET_USER + `?where=objectId%20%3D%20%27${creatorObjectId}%27`), {
+        headers: {
+            'user-token': token
+        }
+    })).json()
+}
+
 export async function getEvents() {
     const token = localStorage.getItem('userToken');
 
@@ -83,7 +94,7 @@ export async function getEventsByUser() {
 export async function getEvent(id) {
     const token = localStorage.getItem('userToken');
 
-    return (await fetch(getURL(endpoints.GET_EVENTS + id), {
+    return (await fetch(getURL(endpoints.GET_EVENT + id), {
         headers: {
             'user-token': token
         }
